@@ -1,0 +1,185 @@
+import {z} from 'zod';
+import {zColor} from '@remotion/zod-types';
+
+// Everything the video says lives here, so a requirement can change
+// without touching the animation code.
+export const traceChainSchema = z.object({
+  tagId: z.string(),
+  colors: z.object({
+    bg: zColor(),
+    srs: zColor(),
+    fr: zColor(),
+    tasks: zColor(),
+    test: zColor(),
+    commit: zColor(),
+    ok: zColor(),
+    text: zColor(),
+    muted: zColor(),
+    panel: zColor(),
+    border: zColor(),
+  }),
+  sound: z.boolean(),
+  title: z.string(),
+  srs: z.object({
+    label: z.string(),
+    text: z.string(),
+    highlights: z.array(z.string()),
+    revLabel: z.string(),
+  }),
+  spec: z.object({
+    tab: z.string(),
+    chips: z.array(z.string()),
+    code: z.string(),
+    clarify: z.string(),
+    ccbLabel: z.string(),
+    resolved: z.string(),
+  }),
+  plan: z.object({
+    tab: z.string(),
+    code: z.string(),
+    bannerLabel: z.string(),
+    bannerItems: z.array(z.string()),
+  }),
+  tasks: z.object({
+    tab: z.string(),
+    code: z.string(),
+    focusTaskId: z.string(),
+  }),
+  terminal: z.object({
+    title: z.string(),
+    testCommand: z.string(),
+    testName: z.string(),
+    testRef: z.string(),
+    testStats: z.string(),
+    commitCommand: z.string(),
+    commitOutput: z.string(),
+    commitHash: z.string(),
+    grepCommand: z.string(),
+    grepResults: z.array(z.string()),
+  }),
+  chain: z.object({
+    pills: z.array(z.object({label: z.string(), color: zColor()})),
+    caption: z.string(),
+  }),
+  timing: z.object({
+    // Scene boundaries (absolute frames).
+    scenes: z.array(z.number()).length(9),
+    titleDockFrame: z.number(),
+    typeSpeed: z.number(),
+    underlineFrame: z.number(),
+    ccbFrame: z.number(),
+    strikeFrame: z.number(),
+    bannerFrame: z.number(),
+    checkStartFrame: z.number(),
+    checkInterval: z.number(),
+    pillInterval: z.number(),
+    captionFrame: z.number(),
+    fadeOutFrame: z.number(),
+  }),
+});
+
+export type TraceChainProps = z.infer<typeof traceChainSchema>;
+
+const C = {
+  bg: '#0E1117',
+  srs: '#79C0FF',
+  fr: '#A371F7',
+  tasks: '#DB61A2',
+  test: '#F78166',
+  commit: '#E3B341',
+  ok: '#3FB950',
+  text: '#E6EDF3',
+  muted: '#8B949E',
+  panel: '#161B22',
+  border: '#30363D',
+};
+
+export const defaultTraceChainProps: TraceChainProps = {
+  tagId: 'SRS-042',
+  colors: C,
+  sound: true,
+  title: 'מדרישה לקוד',
+  srs: {
+    label: 'SRS · מאושר',
+    text: 'התוכנה תדגום את חיישן ה-IMU בקצב 1 kHz בסטייה של עד ±1%, ותפרסם כל דגימה לצרכנים תוך 2 ms.',
+    highlights: ['1 kHz בסטייה של עד ±1%', '2 ms'],
+    revLabel: 'rev B',
+  },
+  spec: {
+    tab: 'spec.md',
+    chips: ['FR-001', 'FR-002'],
+    code: [
+      '### FR-001 [SRS-042]',
+      'System MUST sample the IMU at 1 kHz (±1%).',
+      '',
+      '### FR-002 [SRS-042]',
+      'System MUST publish each sample within 2 ms.',
+    ].join('\n'),
+    clarify: '[NEEDS CLARIFICATION: consumer misses 2 ms deadline?]',
+    ccbLabel: '→ CCB',
+    resolved: 'Resolved: drop sample, increment counter (SRS-042 rev B)',
+  },
+  plan: {
+    tab: 'plan.md',
+    code: [
+      '## 3.2 IMU Sampling   (FR-001, FR-002)',
+      '- Timer IRQ @ 1 kHz → DMA → ring buffer',
+      '- Budget: ISR ≤ 50 µs, publish ≤ 2 ms',
+      '- HAL: imu_hal_read() only',
+    ].join('\n'),
+    bannerLabel: 'Constitution Check',
+    bannerItems: ['I', 'II', 'III'],
+  },
+  tasks: {
+    tab: 'tasks.md',
+    code: [
+      '- [ ] T011 [FR-001] Configure 1 kHz timer IRQ via HAL',
+      '- [ ] T012 [FR-001] Rate test on host mock',
+      '- [ ] T013 [FR-002] Publish via lock-free ring',
+    ].join('\n'),
+    focusTaskId: 'T012',
+  },
+  terminal: {
+    title: 'bash — imu-firmware',
+    testCommand: '$ ctest -R test_rate',
+    testName: 'test_rate',
+    testRef: '(FR-001)',
+    testStats: '  10,000 samples / 10.000 s',
+    commitCommand: '$ git commit -m "T012: IMU 1 kHz sampling [FR-001][SRS-042]"',
+    commitOutput: '[main a1b2c3d] T012: IMU 1 kHz sampling',
+    commitHash: 'a1b2c3d',
+    grepCommand: '$ grep -rn "SRS-042"',
+    grepResults: [
+      'specs/001-imu/spec.md:3     ### FR-001 [SRS-042]',
+      'specs/001-imu/spec.md:6     ### FR-002 [SRS-042]',
+      'specs/001-imu/plan.md:12    ## 3.2 IMU Sampling',
+      'specs/001-imu/tasks.md:4    T012 [FR-001]',
+      'git log:                    a1b2c3d ... [SRS-042]',
+    ],
+  },
+  chain: {
+    pills: [
+      {label: 'SRS-042', color: C.srs},
+      {label: 'FR-001', color: C.fr},
+      {label: 'plan §3.2', color: C.ok},
+      {label: 'T012', color: C.tasks},
+      {label: 'test_rate', color: C.test},
+      {label: 'commit', color: C.commit},
+    ],
+    caption: 'כשבביקורת שואלים "איפה SRS-042 ממומש?" – התשובה היא grep אחד.',
+  },
+  timing: {
+    scenes: [0, 90, 270, 450, 540, 720, 870, 1020, 1200],
+    titleDockFrame: 75,
+    typeSpeed: 2,
+    underlineFrame: 240,
+    ccbFrame: 490,
+    strikeFrame: 515,
+    bannerFrame: 680,
+    checkStartFrame: 820,
+    checkInterval: 12,
+    pillInterval: 10,
+    captionFrame: 1150,
+    fadeOutFrame: 1185,
+  },
+};
