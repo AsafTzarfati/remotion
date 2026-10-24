@@ -1,6 +1,6 @@
 # TraceChain: "מדרישה לקוד"
 
-סרטון Remotion באורך 40 שניות, ‏1920×1080, ‏30fps. התסריט נמצא ב-`../../01_script/brief.md`.
+סרטון Remotion באורך 40 שניות, ‏1920×1080, ‏30fps. התסריט נמצא ב-`../../01_script/trace-chain-brief.md`.
 
 ## פקודות
 ```bash
