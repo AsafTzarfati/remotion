@@ -9,6 +9,7 @@ This repo holds several animated explainer videos built with **Remotion (React)*
 |---|---|---|---|
 | מדרישה לקוד (`TraceChain`) | `04_animation/trace-chain/` | `01_script/trace-chain-brief.md` | Done, rendered with and without sound |
 | Vibe vs SDD (`VibeVsSdd`) | `04_animation/vibe-vs-sdd/` | `01_script/vibe-vs-sdd-brief.md` | In progress: script partial, code not started |
+| לולאת הפיצ'רים (`FeatureLoop`) | `04_animation/feature-loop/` | `01_script/feature-loop-brief.md` | Done, rendered (silent loop); event name/date and logo are placeholders |
 
 Update this table whenever a video is added or its status changes.
 
