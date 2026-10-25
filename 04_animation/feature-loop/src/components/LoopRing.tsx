@@ -1,5 +1,5 @@
 import React from 'react';
-import {Easing, Img, interpolate, interpolateColors, staticFile} from 'remotion';
+import {Easing, Img, interpolate, interpolateColors, staticFile, useVideoConfig} from 'remotion';
 import {HEBREW_FONT, MONO_FONT} from '../fonts';
 import {useCycle} from '../cycle';
 import {alpha, clamp, gradAt, gradCss, LAYOUT, ramp, useColors, useProps} from '../theme';
@@ -42,7 +42,24 @@ export const useRingState = () => {
 const Logo: React.FC = () => {
   const c = useColors();
   const p = useProps();
-  if (p.logoFile) return <Img src={staticFile(p.logoFile)} style={{height: 96}} />;
+  const {frame} = useCycle();
+  const {durationInFrames} = useVideoConfig();
+  // Slow breathing glow, periodic over the whole video so the loop stays seamless.
+  const breathe = 0.5 + 0.5 * Math.sin((frame / durationInFrames) * Math.PI * 2 * 12);
+  if (p.logoFile)
+    return (
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8}}>
+        <Img
+          src={staticFile(p.logoFile)}
+          style={{
+            width: 108,
+            height: 108,
+            filter: `drop-shadow(0 0 ${18 + 16 * breathe}px ${alpha(c.grad2, 0.55 + 0.25 * breathe)})`,
+          }}
+        />
+        <div style={{fontFamily: HEBREW_FONT, fontWeight: 700, fontSize: 22, color: c.text, letterSpacing: 1}}>{p.logoText}</div>
+      </div>
+    );
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10}}>
       <div
@@ -96,14 +113,41 @@ export const LoopRing: React.FC = () => {
     );
   }
 
-  const baseStroke = interpolateColors(pulse, [0, 1], [c.border, c.ok]);
+  const baseStroke = interpolateColors(pulse, [0, 1], [c.ringIdle, c.ok]);
   const idOpacity = ramp(local, 18, 40) * (1 - ramp(local, s.handoff, s.handoff + 18));
 
+  const {frame} = useCycle();
+  const {durationInFrames} = useVideoConfig();
+  const spin = (frame / durationInFrames) * 360;
   return (
     <>
+      <div
+        style={{
+          position: 'absolute',
+          left: cx - r - 60,
+          top: cy - r - 60,
+          width: (r + 60) * 2,
+          height: (r + 60) * 2,
+          borderRadius: '50%',
+          background: `conic-gradient(from ${spin}deg, ${c.grad1}, ${c.grad2}, ${c.grad3}, ${c.grad2}, ${c.grad1})`,
+          opacity: 0.16,
+          filter: 'blur(50px)',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          left: cx - r + 24,
+          top: cy - r + 24,
+          width: (r - 24) * 2,
+          height: (r - 24) * 2,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${alpha(c.grad2, 0.16)}, ${alpha(c.bg, 0.85)} 70%)`,
+        }}
+      />
       <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
-        <circle cx={cx} cy={cy} r={r + 26} fill="none" stroke={alpha(c.border, 0.35)} strokeWidth={1} />
-        <circle cx={cx} cy={cy} r={r - 26} fill="none" stroke={alpha(c.border, 0.25)} strokeWidth={1} />
+        <circle cx={cx} cy={cy} r={r + 26} fill="none" stroke={alpha(c.grad2, 0.25)} strokeWidth={1} />
+        <circle cx={cx} cy={cy} r={r - 26} fill="none" stroke={alpha(c.grad3, 0.3)} strokeWidth={1} />
         <circle cx={cx} cy={cy} r={r} fill="none" stroke={baseStroke} strokeWidth={7 + 6 * pulse} />
         <g opacity={active * (1 - pulse * 0.7)} style={{filter: `drop-shadow(0 0 8px ${alpha(c.grad2, 0.7)})`}}>
           {segs}
@@ -173,9 +217,9 @@ export const LoopRing: React.FC = () => {
         style={{
           position: 'absolute',
           left: cx - 160,
-          top: cy - 140,
+          top: cy - 150,
           width: 320,
-          height: 280,
+          height: 300,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -185,7 +229,7 @@ export const LoopRing: React.FC = () => {
         <Logo />
         <div
           style={{
-            marginTop: 16,
+            marginTop: 10,
             fontFamily: MONO_FONT,
             fontSize: 22,
             color: c.text,
@@ -210,8 +254,8 @@ export const LoopRing: React.FC = () => {
                   textAlign: 'center',
                   fontFamily: HEBREW_FONT,
                   fontWeight: 800,
-                  fontSize: 48,
-                  letterSpacing: 4,
+                  fontSize: 42,
+                  letterSpacing: 3,
                   color: col,
                   opacity: o,
                   transform: `translateY(${(1 - o) * 8}px)`,

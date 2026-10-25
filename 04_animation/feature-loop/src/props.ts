@@ -30,6 +30,7 @@ export const featureLoopSchema = z.object({
     grad1: zColor(),
     grad2: zColor(),
     grad3: zColor(),
+    ringIdle: zColor(), // ring color between features
   }),
   topRight: z.string(),
   eventName: z.string(),
@@ -38,7 +39,7 @@ export const featureLoopSchema = z.object({
   repoName: z.string(),
   repoStatic: z.array(z.string()), // fixed rows around specs/
   logoText: z.string(),
-  logoFile: z.string(), // optional image in public/, empty = drawn logo
+  logoFile: z.string(), // image in public/, empty = drawn placeholder
   needsLabel: z.string(),
   resolvedLabel: z.string(),
   constitutionLabel: z.string(),
@@ -69,11 +70,12 @@ export const defaultFeatureLoopProps: FeatureLoopProps = {
     text: '#E6EDF3',
     muted: '#8B949E',
     srs: '#79C0FF',
-    ok: '#3FB950',
+    ok: '#A6E15A', // Spec Kit sprout green
     warn: '#E3B341',
     grad1: '#FF3EA5',
     grad2: '#A020F0',
     grad3: '#2B2FD6',
+    ringIdle: '#2C2A3F',
   },
   topRight: 'Spec-Driven Development',
   eventName: '[שם האירוע]',
@@ -82,7 +84,7 @@ export const defaultFeatureLoopProps: FeatureLoopProps = {
   repoName: 'firmware',
   repoStatic: ['.specify/', 'src/', 'specs/', 'README.md'],
   logoText: 'Spec Kit',
-  logoFile: '',
+  logoFile: 'speckit-logo.png', // official logo from github/spec-kit (media/logo_large.webp)
   needsLabel: 'NEEDS CLARIFICATION',
   resolvedLabel: 'resolved',
   constitutionLabel: 'Constitution ✓',

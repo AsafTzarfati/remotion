@@ -18,11 +18,12 @@ export const Background: React.FC = () => {
       style={{
         backgroundColor: c.bg,
         backgroundImage: [
-          `radial-gradient(800px circle at ${ax}% ${ay}%, ${alpha(c.grad2, 0.07)}, transparent 70%)`,
-          `radial-gradient(700px circle at ${bx}% ${by}%, ${alpha(c.grad3, 0.07)}, transparent 70%)`,
+          `radial-gradient(800px circle at ${ax}% ${ay}%, ${alpha(c.grad2, 0.11)}, transparent 70%)`,
+          `radial-gradient(700px circle at ${bx}% ${by}%, ${alpha(c.grad3, 0.12)}, transparent 70%)`,
+          `radial-gradient(600px circle at ${100 - ax}% ${100 - ay}%, ${alpha(c.grad1, 0.07)}, transparent 70%)`,
           `radial-gradient(1px 1px at 1px 1px, ${alpha(c.text, 0.05)} 1px, transparent 0)`,
         ].join(','),
-        backgroundSize: 'auto, auto, 48px 48px',
+        backgroundSize: 'auto, auto, auto, 48px 48px',
       }}
     />
   );

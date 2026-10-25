@@ -1,5 +1,5 @@
 import React from 'react';
-import {interpolate, interpolateColors, spring, useVideoConfig} from 'remotion';
+import {Img, interpolate, interpolateColors, spring, staticFile, useVideoConfig} from 'remotion';
 import {MONO_FONT} from '../fonts';
 import {useCycle} from '../cycle';
 import {alpha, clamp, gradAt, gradCss, LAYOUT, MONO, ramp, useColors, useProps} from '../theme';
@@ -298,12 +298,13 @@ export const StageWindows: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                gap: 7,
+                gap: 6,
                 padding: '0 10px',
                 boxSizing: 'border-box',
               }}
             >
-              {[1, 0.7, 0.85, 0.5].map((w, i) => (
+              {p.logoFile ? <Img src={staticFile(p.logoFile)} style={{width: 34, height: 34, alignSelf: 'center'}} /> : null}
+              {[1, 0.6].map((w, i) => (
                 <div key={i} style={{height: 4, width: `${w * 100}%`, borderRadius: 2, background: alpha(c.text, 0.5)}} />
               ))}
             </div>

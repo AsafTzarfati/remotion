@@ -1,6 +1,6 @@
 import React from 'react';
 import {MONO_FONT} from '../fonts';
-import {alpha, MONO, useColors} from '../theme';
+import {alpha, gradCss, MONO, useColors} from '../theme';
 
 export const EDITOR = {titleBar: 40, padTop: 12, gutter: 40, padLeft: 14};
 
@@ -35,15 +35,16 @@ export const MiniEditor: React.FC<Props> = ({tab, tabColor, x, y, w, h, open, li
         background: c.panel,
         border: `1px solid ${c.border}`,
         borderRadius: 14,
-        boxShadow: `0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px ${alpha(tabColor, 0.1)}`,
+        boxShadow: `0 24px 60px rgba(0,0,0,0.55), 0 0 30px ${alpha(tabColor, 0.12)}`,
         overflow: 'hidden',
         direction: 'ltr',
         ...style,
       }}
     >
+      <div style={{height: 3, background: gradCss(c)}} />
       <div
         style={{
-          height: EDITOR.titleBar,
+          height: EDITOR.titleBar - 3,
           display: 'flex',
           alignItems: 'flex-end',
           gap: 14,

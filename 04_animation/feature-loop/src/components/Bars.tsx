@@ -1,4 +1,5 @@
 import React from 'react';
+import {Img, staticFile} from 'remotion';
 import {HEBREW_FONT} from '../fonts';
 import {alpha, gradCss, LAYOUT, useColors, useProps} from '../theme';
 import {Bidi} from './Bidi';
@@ -27,6 +28,7 @@ export const TopBar: React.FC = () => {
       <div style={{fontFamily: HEBREW_FONT, fontSize: 26, color: c.muted, direction: 'rtl', fontWeight: 500}}>
         <Bidi text={`${p.eventName} · ${p.eventDate}`} />
       </div>
+      <div style={{display: 'flex', alignItems: 'center', gap: 16}}>
       <div
         style={{
           fontFamily: HEBREW_FONT,
@@ -40,6 +42,8 @@ export const TopBar: React.FC = () => {
         }}
       >
         {p.topRight}
+      </div>
+      {p.logoFile ? <Img src={staticFile(p.logoFile)} style={{width: 52, height: 52}} /> : null}
       </div>
       <div
         style={{position: 'absolute', left: 0, bottom: -1, width: '100%', height: 2, background: gradCss(c), opacity: 0.55}}

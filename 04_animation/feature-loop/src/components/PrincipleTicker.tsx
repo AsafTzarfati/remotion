@@ -1,7 +1,7 @@
 import React from 'react';
 import {useCurrentFrame, useVideoConfig} from 'remotion';
 import {HEBREW_FONT} from '../fonts';
-import {alpha, LAYOUT, ramp, useColors, useProps} from '../theme';
+import {alpha, gradCss, LAYOUT, ramp, useColors, useProps} from '../theme';
 import {Bidi} from './Bidi';
 
 // One principle at a time. The period is the video length divided by the
@@ -33,6 +33,7 @@ export const PrincipleTicker: React.FC = () => {
         background: alpha(c.panel, 0.55),
       }}
     >
+      <div style={{position: 'absolute', left: 0, top: -1, width: '100%', height: 2, background: gradCss(c), opacity: 0.55}} />
       <div
         style={{
           fontFamily: HEBREW_FONT,

@@ -12,5 +12,5 @@ npm run render              # out/feature-loop.mp4
 ## איפה לשנות מה
 - **כל התוכן, הצבעים והתזמונים:** `src/props.ts` (או ב-Studio).
 - **שם האירוע והתאריך:** `eventName`, `eventDate`.
-- **לוגו אמיתי של Spec Kit:** לשים קובץ ב-`public/` ולמלא את `logoFile`.
+- **הלוגו:** `public/speckit-logo.png` (הלוגו הרשמי מהריפו github/spec-kit), דרך `logoFile`.
 - **פיצ'ר רביעי:** להוסיף איבר ל-`features`; הסרטון מתארך ב-20 שניות מעצמו.

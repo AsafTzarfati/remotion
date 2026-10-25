@@ -117,7 +117,7 @@ export const SrsStack: React.FC = () => {
     <Card
       key="back"
       f={p.features[at(0)]}
-      style={{left: LAYOUT.srs.x, top: slotY(back) + (1 - rise) * 40, opacity: rise * vis(back)}}
+      style={{left: LAYOUT.srs.x, top: slotY(back) + (1 - rise) * 40, opacity: ramp(rise, 0.55, 1) * vis(back)}}
     />,
   );
 

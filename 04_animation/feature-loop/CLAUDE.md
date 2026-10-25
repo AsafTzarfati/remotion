@@ -18,7 +18,7 @@ Everything is a function of `k` and `local`, so frame 1799 flows into frame 0: t
 - **Illustrative content I wrote:** `planLines`, `tasks`, `code` for each feature, commits `4e5f6a7` (002) and `9c8d7e2` (003), repo name `firmware`, static repo rows. Only `a1b2c3d` came from the script.
 - spec.md shows `# <feature id>` above the typed `FR-001 [SRS-xxx]` line.
 - implement opens a 4th window (`src/<name>.c`) in front of the other three; it folds with them at handoff.
-- Spec Kit logo is a drawn placeholder (`{}` in a gradient square). Put the real logo in `public/` and set `logoFile`.
+- Spec Kit branding: the official logo (`public/speckit-logo.png`, cropped from `media/logo_large.webp` in github/spec-kit; hash in `public/SHA256SUMS-logo`) sits in the ring center, the top bar, the repo commit avatar and the flying file. Success green is the logo's sprout green `#A6E15A` instead of the shared `#3FB950`. Windows and the repo have a gradient strip on top, and a slow conic gradient glows behind the ring.
 - Top bar left side still shows the placeholders `[שם האירוע] · [תאריך]` (`eventName`, `eventDate`).
 - The `sound` prop and `make-sfx.mjs` were not copied: the script asks for no sound.
 

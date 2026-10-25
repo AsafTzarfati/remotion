@@ -1,8 +1,8 @@
 import React from 'react';
-import {interpolate, spring, useVideoConfig} from 'remotion';
+import {Img, interpolate, spring, staticFile, useVideoConfig} from 'remotion';
 import {MONO_FONT} from '../fonts';
 import {useCycle} from '../cycle';
-import {alpha, LAYOUT, useColors, useProps} from '../theme';
+import {alpha, gradCss, LAYOUT, useColors, useProps} from '../theme';
 
 const R = {header: 52, commit: 50, row: 40, pad: 8, childIndent: 26};
 const SPECS_DIR = 'specs/';
@@ -15,7 +15,7 @@ export const repoLandPoint = (staticRows: string[]) => {
   const specsIdx = Math.max(0, staticRows.indexOf(SPECS_DIR));
   return {
     x: LAYOUT.repo.x + 18 + R.childIndent + 20,
-    y: LAYOUT.repo.y + R.header + R.commit + R.pad + (specsIdx + 1) * R.row + R.row / 2,
+    y: LAYOUT.repo.y + 3 + R.header + R.commit + R.pad + (specsIdx + 1) * R.row + R.row / 2,
   };
 };
 
@@ -62,7 +62,11 @@ export const RepoTree: React.FC = () => {
 
   const commitRow = (f: (typeof p.features)[number], o: number) => (
     <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', gap: 10, padding: '0 16px', opacity: o}}>
-      <div style={{width: 22, height: 22, borderRadius: 11, background: `linear-gradient(135deg, ${c.grad1}, ${c.grad3})`, flexShrink: 0}} />
+      {p.logoFile ? (
+        <Img src={staticFile(p.logoFile)} style={{width: 24, height: 24, flexShrink: 0}} />
+      ) : (
+        <div style={{width: 22, height: 22, borderRadius: 11, background: `linear-gradient(135deg, ${c.grad1}, ${c.grad3})`, flexShrink: 0}} />
+      )}
       <span style={{color: c.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1}}>{f.id}</span>
       <span style={{color: c.warn}}>{f.commit}</span>
     </div>
@@ -111,6 +115,7 @@ export const RepoTree: React.FC = () => {
         paddingBottom: R.pad,
       }}
     >
+      <div style={{height: 3, background: gradCss(c)}} />
       <div
         style={{
           height: R.header,
