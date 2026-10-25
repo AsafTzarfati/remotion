@@ -10,6 +10,7 @@ npm run render              # out/feature-loop.mp4
 ```
 
 ## איפה לשנות מה
+- **גרסה מינימלית / מלאה:** `ringOnly: true` (ברירת המחדל) מציג רק את הטבעת במרכז. `false` מחזיר את כל המסך מהתסריט.
 - **כל התוכן, הצבעים והתזמונים:** `src/props.ts` (או ב-Studio).
 - **שם האירוע והתאריך:** `eventName`, `eventDate`.
 - **הלוגו:** `public/speckit-logo.png` (הלוגו הרשמי מהריפו github/spec-kit), דרך `logoFile`.

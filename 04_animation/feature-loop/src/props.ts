@@ -16,6 +16,9 @@ const featureSchema = z.object({
 });
 
 export const featureLoopSchema = z.object({
+  // true = only the ring, centered and enlarged; false = full layout with SRS, windows, repo and bars
+  ringOnly: z.boolean(),
+  ringScale: z.number(),
   colors: z.object({
     bg: zColor(),
     panel: zColor(),
@@ -62,6 +65,8 @@ export type FeatureLoopProps = z.infer<typeof featureLoopSchema>;
 export type Feature = z.infer<typeof featureSchema>;
 
 export const defaultFeatureLoopProps: FeatureLoopProps = {
+  ringOnly: true,
+  ringScale: 1.55,
   colors: {
     bg: '#0D1117',
     panel: '#161B22',
